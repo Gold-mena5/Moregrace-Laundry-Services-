@@ -253,8 +253,8 @@
         <div class="card">White T (Long/Short) <span>₦400</span></div>
         <div class="card">Polo <span>₦400</span></div>
         <div class="card">Native <span>₦1,000</span></div>
-        <div class="card">Duvet Big <span>₦5,000</span></div>
-        <div class="card">Duvet Small <span>₦4,000</span></div>
+        <div class="card">Duvet Big <span>₦4,000</span></div>
+        <div class="card">Duvet Small <span>₦3,000</span></div>
     </section>
 
     <section>
@@ -269,8 +269,8 @@
                     <option value="400" data-name="White T">White T - ₦400</option>
                     <option value="400" data-name="Polo">Polo - ₦400</option>
                     <option value="1000" data-name="Native">Native - ₦1,000</option>
-                    <option value="5000" data-name="Duvet Big">Duvet Big - ₦5,000</option>
-                    <option value="4000" data-name="Duvet Small">Duvet Small - ₦4,000</option>
+                    <option value="4000" data-name="Duvet Big">Duvet Big - ₦4,000</option>
+                    <option value="3000" data-name="Duvet Small">Duvet Small - ₦3,000</option>
                 </select>
                 <input type="number" class="item-qty" placeholder="Qty" min="1" value="1" onchange="calculateTotal()">
                 <div class="item-total">₦0</div>
@@ -285,7 +285,7 @@
                 <strong>Pickup & Delivery Service</strong><br>
                 <small>We'll pick up and deliver your clothes to your doorstep</small>
             </label>
-            <div class="pickup-price">₦5,000</div>
+            <div class="pickup-price">₦3,000</div>
         </div>
 
         <div class="total-section">
@@ -315,6 +315,9 @@
     <a class="whatsapp" href="https://wa.me/2348137760372" target="_blank">💬 Chat</a>
 
     <script>
+        const YOUR_WHATSAPP_NUMBER = "2348137760372";
+        const DELIVERY_FEE = 3000;
+
         function addItem() {
             const container = document.getElementById('orderItems');
             const newItem = document.createElement('div');
@@ -327,8 +330,8 @@
                     <option value="400" data-name="White T">White T - ₦400</option>
                     <option value="400" data-name="Polo">Polo - ₦400</option>
                     <option value="1000" data-name="Native">Native - ₦1,000</option>
-                    <option value="5000" data-name="Duvet Big">Duvet Big - ₦5,000</option>
-                    <option value="4000" data-name="Duvet Small">Duvet Small - ₦4,000</option>
+                    <option value="4000" data-name="Duvet Big">Duvet Big - ₦4,000</option>
+                    <option value="3000" data-name="Duvet Small">Duvet Small - ₦3,000</option>
                 </select>
                 <input type="number" class="item-qty" placeholder="Qty" min="1" value="1" onchange="calculateTotal()">
                 <div class="item-total">₦0</div>
@@ -367,14 +370,14 @@
             });
 
             const pickup = document.getElementById('pickup').checked;
-            const pickupFee = pickup ? 5000 : 0;
+            const pickupFee = pickup ? DELIVERY_FEE : 0;
 
             const grandTotal = subtotal + pickupFee;
 
             document.getElementById('grandTotal').textContent = '₦' + grandTotal.toLocaleString();
 
             let breakdownHTML = breakdownText.join(' + ');
-            if (pickup) breakdownHTML += ' + Pickup ₦5,000';
+            if (pickup) breakdownHTML += ' + Delivery ₦3,000';
             document.getElementById('breakdown').textContent = breakdownHTML || 'Select items to see breakdown';
         }
 
@@ -415,9 +418,34 @@
             }
 
             const pickup = document.getElementById('pickup').checked;
-            const pickupFee = pickup ? 5000 : 0;
+            const pickupFee = pickup ? DELIVERY_FEE : 0;
             const grandTotal = subtotal + pickupFee;
 
+            // Build WhatsApp message
+            let message = `*NEW LAUNDRY ORDER*%0A%0A`;
+            message += `*Customer Name:* ${name}%0A`;
+            message += `*Phone Number:* ${phone}%0A`;
+            message += `*Address:* ${address}%0A%0A`;
+            message += `*Order Items:*%0A`;
+            
+            items.forEach((item, index) => {
+                message += `${index + 1}. ${item.name} x${item.quantity} = ₦${item.total.toLocaleString()}%0A`;
+            });
+            
+            message += `%0A*Subtotal:* ₦${subtotal.toLocaleString()}%0A`;
+            
+            if (pickup) {
+                message += `*Delivery:* ₦${DELIVERY_FEE.toLocaleString()}%0A`;
+            }
+            
+            message += `%0A*TOTAL:* ₦${grandTotal.toLocaleString()}%0A`;
+            message += `%0A_Ordered on: ${new Date().toLocaleString()}_`;
+
+            // Open WhatsApp with the message
+            const whatsappUrl = `https://wa.me/${YOUR_WHATSAPP_NUMBER}?text=${message}`;
+            window.open(whatsappUrl, '_blank');
+
+            // Save to localStorage
             const order = {
                 customer: { name, phone, address },
                 items: items,
@@ -432,8 +460,10 @@
             orders.push(order);
             localStorage.setItem('orders', JSON.stringify(orders));
 
+            // Show success
             document.getElementById('successMsg').style.display = 'block';
 
+            // Reset form
             document.getElementById('orderItems').innerHTML = `
                 <div class="order-item">
                     <select class="item-select" onchange="calculateTotal()">
@@ -443,8 +473,8 @@
                         <option value="400" data-name="White T">White T - ₦400</option>
                         <option value="400" data-name="Polo">Polo - ₦400</option>
                         <option value="1000" data-name="Native">Native - ₦1,000</option>
-                        <option value="5000" data-name="Duvet Big">Duvet Big - ₦5,000</option>
-                        <option value="4000" data-name="Duvet Small">Duvet Small - ₦4,000</option>
+                        <option value="4000" data-name="Duvet Big">Duvet Big - ₦4,000</option>
+                        <option value="3000" data-name="Duvet Small">Duvet Small - ₦3,000</option>
                     </select>
                     <input type="number" class="item-qty" placeholder="Qty" min="1" value="1" onchange="calculateTotal()">
                     <div class="item-total">₦0</div>
