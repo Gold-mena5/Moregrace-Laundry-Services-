@@ -48,7 +48,6 @@
 
         .card span { font-weight: bold; color: #0a1f44; }
 
-        /* Order items */
         .order-item {
             background: #fff;
             padding: 15px;
@@ -109,7 +108,6 @@
 
         .add-btn:hover { background: #218838; }
 
-        /* Customer info form */
         .customer-form {
             background: #fff;
             padding: 25px;
@@ -127,7 +125,6 @@
             font-size: 14px;
         }
 
-        /* Pickup option */
         .pickup-option {
             background: #fff;
             padding: 20px;
@@ -156,7 +153,6 @@
             font-size: 18px;
         }
 
-        /* Total section */
         .total-section {
             background: #0a1f44;
             color: #fff;
@@ -220,6 +216,27 @@
             display: none;
             text-align: center;
         }
+
+        .contact-section {
+            background: #fff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .contact-section a {
+            color: #25D366;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .contact-section p {
+            color: #666;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -243,7 +260,6 @@
     <section>
         <h2>Place Your Order</h2>
         
-        <!-- Multiple items container -->
         <div id="orderItems">
             <div class="order-item">
                 <select class="item-select" onchange="calculateTotal()">
@@ -263,7 +279,6 @@
 
         <button type="button" class="add-btn" onclick="addItem()">+ Add Another Item</button>
 
-        <!-- Pickup & Delivery -->
         <div class="pickup-option">
             <input type="checkbox" id="pickup" onchange="calculateTotal()">
             <label for="pickup">
@@ -273,14 +288,12 @@
             <div class="pickup-price">₦5,000</div>
         </div>
 
-        <!-- Total -->
         <div class="total-section">
             <h3>Total Amount</h3>
             <div class="grand-total" id="grandTotal">₦0</div>
             <div class="breakdown" id="breakdown"></div>
         </div>
 
-        <!-- Customer Info -->
         <div class="customer-form">
             <input type="text" id="name" placeholder="Your Name" required>
             <input type="tel" id="phone" placeholder="Phone Number" required>
@@ -293,24 +306,15 @@
 
     <section>
         <h2>Customer Care</h2>
-        <p>Contact us on WhatsApp for fast response.</p>
+        <div class="contact-section">
+            <a href="https://wa.me/2348137760372" target="_blank">💬 Chat on WhatsApp</a>
+            <p>Or contact us on <strong>+2348137760372</strong> on WhatsApp</p>
+        </div>
     </section>
 
     <a class="whatsapp" href="https://wa.me/2348137760372" target="_blank">💬 Chat</a>
 
     <script>
-        // Prices mapping
-        const prices = {
-            'Trouser': 500,
-            'Jeans': 500,
-            'White T': 400,
-            'Polo': 400,
-            'Native': 1000,
-            'Duvet Big': 5000,
-            'Duvet Small': 4000
-        };
-
-        // Add new item row
         function addItem() {
             const container = document.getElementById('orderItems');
             const newItem = document.createElement('div');
@@ -333,13 +337,11 @@
             container.appendChild(newItem);
         }
 
-        // Remove item row
         function removeItem(btn) {
             btn.parentElement.remove();
             calculateTotal();
         }
 
-        // Calculate total
         function calculateTotal() {
             const items = document.querySelectorAll('.order-item');
             let subtotal = 0;
@@ -364,13 +366,11 @@
                 }
             });
 
-            // Pickup fee
             const pickup = document.getElementById('pickup').checked;
             const pickupFee = pickup ? 5000 : 0;
 
             const grandTotal = subtotal + pickupFee;
 
-            // Update display
             document.getElementById('grandTotal').textContent = '₦' + grandTotal.toLocaleString();
 
             let breakdownHTML = breakdownText.join(' + ');
@@ -378,7 +378,6 @@
             document.getElementById('breakdown').textContent = breakdownHTML || 'Select items to see breakdown';
         }
 
-        // Submit order
         function submitOrder(e) {
             e.preventDefault();
 
@@ -391,7 +390,6 @@
                 return;
             }
 
-            // Gather order items
             const items = [];
             let subtotal = 0;
             document.querySelectorAll('.order-item').forEach(item => {
@@ -430,15 +428,12 @@
                 date: new Date().toLocaleString()
             };
 
-            // Save to localStorage
             let orders = JSON.parse(localStorage.getItem('orders')) || [];
             orders.push(order);
             localStorage.setItem('orders', JSON.stringify(orders));
 
-            // Show success
             document.getElementById('successMsg').style.display = 'block';
 
-            // Reset form
             document.getElementById('orderItems').innerHTML = `
                 <div class="order-item">
                     <select class="item-select" onchange="calculateTotal()">
@@ -466,7 +461,6 @@
             }, 3000);
         }
 
-        // Initial calculation
         calculateTotal();
     </script>
 
