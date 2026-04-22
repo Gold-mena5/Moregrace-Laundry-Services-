@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>More Grace Laundry Services</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body { 
+            font-family: Arial, sans-serif; 
+            background: #f5f5f5; 
+            line-height: 1.6;
+        }
+
+        header { 
+            background: #0a1f44; 
+            color: #fff; 
+            padding: 40px 20px; 
+            text-align: center; 
+        }
+
+        header h1 { font-size: 28px; margin-bottom: 10px; }
+        header p { color: #ccc; font-size: 16px; }
+
+        section { 
+            padding: 30px 20px; 
+            max-width: 600px; 
+            margin: 0 auto; 
+        }
+
+        h2 { 
+            color: #0a1f44; 
+            margin-bottom: 20px; 
+            text-align: center;
+        }
+
+        .card { 
+            background: #fff; 
+            padding: 15px 20px; 
+            margin: 10px 0; 
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card span { font-weight: bold; color: #0a1f44; }
+
+        /* Order items */
+        .order-item {
+            background: #fff;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .order-item select {
+            flex: 2;
+            min-width: 150px;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .order-item input[type="number"] {
+            flex: 1;
+            min-width: 80px;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .order-item .item-total {
+            flex: 1;
+            min-width: 100px;
+            font-weight: bold;
+            color: #0a1f44;
+            text-align: right;
+        }
+
+        .remove-btn {
+            background: #dc3545;
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .add-btn {
+            width: 100%;
+            padding: 12px;
+            background: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 0;
+            font-size: 16px;
+        }
+
+        .add-btn:hover { background: #218838; }
+
+        /* Customer info form */
+        .customer-form {
+            background: #fff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+
+        .customer-form input {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        /* Pickup option */
+        .pickup-option {
+            background: #fff;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .pickup-option input[type="checkbox"] {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+        }
+
+        .pickup-option label {
+            flex: 1;
+            cursor: pointer;
+        }
+
+        .pickup-option .pickup-price {
+            font-weight: bold;
+            color: #0a1f44;
+            font-size: 18px;
+        }
+
+        /* Total section */
+        .total-section {
+            background: #0a1f44;
+            color: #fff;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .total-section h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .total-section .grand-total {
+            font-size: 36px;
+            font-weight: bold;
+            color: #ffd700;
+        }
+
+        .total-section .breakdown {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #ccc;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 16px;
+            background: #ff6b00;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        button[type="submit"]:hover { background: #e65c00; }
+
+        .whatsapp { 
+            position: fixed; 
+            bottom: 20px; 
+            right: 20px; 
+            background: #25D366; 
+            color: #fff; 
+            padding: 15px 20px; 
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .success-msg {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 15px;
+            display: none;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>MORE GRACE LAUNDRY SERVICES</h1>
+        <p>Fast • Affordable • Reliable</p>
+    </header>
+
+    <section>
+        <h2>Our Prices</h2>
+        <div class="card">Trouser <span>₦500</span></div>
+        <div class="card">Jeans <span>₦500</span></div>
+        <div class="card">White T (Long/Short) <span>₦400</span></div>
+        <div class="card">Polo <span>₦400</span></div>
+        <div class="card">Native <span>₦1,000</span></div>
+        <div class="card">Duvet Big <span>₦5,000</span></div>
+        <div class="card">Duvet Small <span>₦4,000</span></div>
+    </section>
+
+    <section>
+        <h2>Place Your Order</h2>
+        
+        <!-- Multiple items container -->
+        <div id="orderItems">
+            <div class="order-item">
+                <select class="item-select" onchange="calculateTotal()">
+                    <option value="">Select Item</option>
+                    <option value="500" data-name="Trouser">Trouser - ₦500</option>
+                    <option value="500" data-name="Jeans">Jeans - ₦500</option>
+                    <option value="400" data-name="White T">White T - ₦400</option>
+                    <option value="400" data-name="Polo">Polo - ₦400</option>
+                    <option value="1000" data-name="Native">Native - ₦1,000</option>
+                    <option value="5000" data-name="Duvet Big">Duvet Big - ₦5,000</option>
+                    <option value="4000" data-name="Duvet Small">Duvet Small - ₦4,000</option>
+                </select>
+                <input type="number" class="item-qty" placeholder="Qty" min="1" value="1" onchange="calculateTotal()">
+                <div class="item-total">₦0</div>
+            </div>
+        </div>
+
+        <button type="button" class="add-btn" onclick="addItem()">+ Add Another Item</button>
+
+        <!-- Pickup & Delivery -->
+        <div class="pickup-option">
+            <input type="checkbox" id="pickup" onchange="calculateTotal()">
+            <label for="pickup">
+                <strong>Pickup & Delivery Service</strong><br>
+                <small>We'll pick up and deliver your clothes to your doorstep</small>
+            </label>
+            <div class="pickup-price">₦5,000</div>
+        </div>
+
+        <!-- Total -->
+        <div class="total-section">
+            <h3>Total Amount</h3>
+            <div class="grand-total" id="grandTotal">₦0</div>
+            <div class="breakdown" id="breakdown"></div>
+        </div>
+
+        <!-- Customer Info -->
+        <div class="customer-form">
+            <input type="text" id="name" placeholder="Your Name" required>
+            <input type="tel" id="phone" placeholder="Phone Number" required>
+            <input type="text" id="address" placeholder="Delivery Address" required>
+        </div>
+
+        <button type="submit" onclick="submitOrder(event)">Submit Order</button>
+        <div class="success-msg" id="successMsg">Order submitted successfully!</div>
+    </section>
+
+    <section>
+        <h2>Customer Care</h2>
+        <p>Contact us on WhatsApp for fast response.</p>
+    </section>
+
+    <a class="whatsapp" href="https://wa.me/2348137760372" target="_blank">💬 Chat</a>
+
+    <script>
+        // Prices mapping
+        const prices = {
+            'Trouser': 500,
+            'Jeans': 500,
+            'White T': 400,
+            'Polo': 400,
+            'Native': 1000,
+            'Duvet Big': 5000,
+            'Duvet Small': 4000
+        };
+
+        // Add new item row
+        function addItem() {
+            const container = document.getElementById('orderItems');
+            const newItem = document.createElement('div');
+            newItem.className = 'order-item';
+            newItem.innerHTML = `
+                <select class="item-select" onchange="calculateTotal()">
+                    <option value="">Select Item</option>
+                    <option value="500" data-name="Trouser">Trouser - ₦500</option>
+                    <option value="500" data-name="Jeans">Jeans - ₦500</option>
+                    <option value="400" data-name="White T">White T - ₦400</option>
+                    <option value="400" data-name="Polo">Polo - ₦400</option>
+                    <option value="1000" data-name="Native">Native - ₦1,000</option>
+                    <option value="5000" data-name="Duvet Big">Duvet Big - ₦5,000</option>
+                    <option value="4000" data-name="Duvet Small">Duvet Small - ₦4,000</option>
+                </select>
+                <input type="number" class="item-qty" placeholder="Qty" min="1" value="1" onchange="calculateTotal()">
+                <div class="item-total">₦0</div>
+                <button type="button" class="remove-btn" onclick="removeItem(this)">Remove</button>
+            `;
+            container.appendChild(newItem);
+        }
+
+        // Remove item row
+        function removeItem(btn) {
+            btn.parentElement.remove();
+            calculateTotal();
+        }
+
+        // Calculate total
+        function calculateTotal() {
+            const items = document.querySelectorAll('.order-item');
+            let subtotal = 0;
+            let breakdownText = [];
+
+            items.forEach(item => {
+                const select = item.querySelector('.item-select');
+                const qty = item.querySelector('.item-qty');
+                const totalDisplay = item.querySelector('.item-total');
+
+                if (select.value && qty.value) {
+                    const price = parseInt(select.value);
+                    const quantity = parseInt(qty.value);
+                    const itemTotal = price * quantity;
+                    const itemName = select.options[select.selectedIndex].getAttribute('data-name');
+
+                    subtotal += itemTotal;
+                    totalDisplay.textContent = '₦' + itemTotal.toLocaleString();
+                    breakdownText.push(`${itemName} x${quantity} = ₦${itemTotal.toLocaleString()}`);
+                } else {
+                    totalDisplay.textContent = '₦0';
+                }
+            });
+
+            // Pickup fee
+            const pickup = document.getElementById('pickup').checked;
+            const pickupFee = pickup ? 5000 : 0;
+
+            const grandTotal = subtotal + pickupFee;
+
+            // Update display
+            document.getElementById('grandTotal').textContent = '₦' + grandTotal.toLocaleString();
+
+            let breakdownHTML = breakdownText.join(' + ');
+            if (pickup) breakdownHTML += ' + Pickup ₦5,000';
+            document.getElementById('breakdown').textContent = breakdownHTML || 'Select items to see breakdown';
+        }
+
+        // Submit order
+        function submitOrder(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const address = document.getElementById('address').value.trim();
+
+            if (!name || !phone || !address) {
+                alert("Please fill all your details!");
+                return;
+            }
+
+            // Gather order items
+            const items = [];
+            let subtotal = 0;
+            document.querySelectorAll('.order-item').forEach(item => {
+                const select = item.querySelector('.item-select');
+                const qty = item.querySelector('.item-qty');
+                if (select.value && qty.value) {
+                    const price = parseInt(select.value);
+                    const quantity = parseInt(qty.value);
+                    const itemName = select.options[select.selectedIndex].getAttribute('data-name');
+                    items.push({
+                        name: itemName,
+                        price: price,
+                        quantity: quantity,
+                        total: price * quantity
+                    });
+                    subtotal += price * quantity;
+                }
+            });
+
+            if (items.length === 0) {
+                alert("Please select at least one item!");
+                return;
+            }
+
+            const pickup = document.getElementById('pickup').checked;
+            const pickupFee = pickup ? 5000 : 0;
+            const grandTotal = subtotal + pickupFee;
+
+            const order = {
+                customer: { name, phone, address },
+                items: items,
+                subtotal: subtotal,
+                pickup: pickup,
+                pickupFee: pickupFee,
+                grandTotal: grandTotal,
+                date: new Date().toLocaleString()
+            };
+
+            // Save to localStorage
+            let orders = JSON.parse(localStorage.getItem('orders')) || [];
+            orders.push(order);
+            localStorage.setItem('orders', JSON.stringify(orders));
+
+            // Show success
+            document.getElementById('successMsg').style.display = 'block';
+
+            // Reset form
+            document.getElementById('orderItems').innerHTML = `
+                <div class="order-item">
+                    <select class="item-select" onchange="calculateTotal()">
+                        <option value="">Select Item</option>
+                        <option value="500" data-name="Trouser">Trouser - ₦500</option>
+                        <option value="500" data-name="Jeans">Jeans - ₦500</option>
+                        <option value="400" data-name="White T">White T - ₦400</option>
+                        <option value="400" data-name="Polo">Polo - ₦400</option>
+                        <option value="1000" data-name="Native">Native - ₦1,000</option>
+                        <option value="5000" data-name="Duvet Big">Duvet Big - ₦5,000</option>
+                        <option value="4000" data-name="Duvet Small">Duvet Small - ₦4,000</option>
+                    </select>
+                    <input type="number" class="item-qty" placeholder="Qty" min="1" value="1" onchange="calculateTotal()">
+                    <div class="item-total">₦0</div>
+                </div>
+            `;
+            document.getElementById('pickup').checked = false;
+            document.getElementById('name').value = '';
+            document.getElementById('phone').value = '';
+            document.getElementById('address').value = '';
+            calculateTotal();
+
+            setTimeout(() => {
+                document.getElementById('successMsg').style.display = 'none';
+            }, 3000);
+        }
+
+        // Initial calculation
+        calculateTotal();
+    </script>
+
+</body>
+</html>
